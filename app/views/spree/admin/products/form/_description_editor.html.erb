@@ -1,0 +1,45 @@
+<!-- Product Description Editor -->
+<textarea name="product_description_editor" id="product_description_editor" rows="22">
+    <%= @product.description.html_safe %>
+</textarea><!-- /#product_description_editor -->
+
+<!-- Styling -->
+<style>
+  /* Hide Product Description Textarea */
+  textarea#product_description {
+    display: none;
+  }
+</style>
+
+<!-- Scripts -->
+<script src="//cdn.ckeditor.com/4.5.6/full/ckeditor.js"></script>
+<script>
+  $( document ).ready(function() {
+    // Initialize the editor with configuration
+    var productDescriptionEditor = CKEDITOR.replace('product_description_editor', {
+      toolbar: [
+        { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Preview', '-', 'Maximize'] },
+        { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+        { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+        { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+        '/',
+        { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] }
+      ],
+      toolbar_mini : [
+        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+        { name: 'styles', items: [ 'Font', 'FontSize' ] },
+        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+        { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] }
+      ]
+    });
+
+    // On form submit, set the content of the (hidden) description field to the html
+    $('#edit_product_<%= @product.id.to_s %>').on('submit', function(){
+      $('#product_description').val( productDescriptionEditor.getData() );
+    });
+  });
+</script>
